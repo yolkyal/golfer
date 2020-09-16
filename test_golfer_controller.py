@@ -16,11 +16,11 @@ class TestGolferController(unittest.TestCase):
 		self.golfer.start_turn_left.assert_called_once()
 
 	def testKeyUpKLeft(self):
-		e = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_LEFT)
+		e = pygame.event.Event(pygame.KEYUP, key=pygame.K_LEFT)
 
 		self.golfer_controller.handle_event(e)
 
-		self.golfer.start_turn_left.assert_called_once()
+		self.golfer.end_turn_left.assert_called_once()
 
 	def testKeyDownKRight(self):
 		e = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_RIGHT)
@@ -30,11 +30,11 @@ class TestGolferController(unittest.TestCase):
 		self.golfer.start_turn_right.assert_called_once()
 
 	def testKeyUpKRight(self):
-		e = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_RIGHT)
+		e = pygame.event.Event(pygame.KEYUP, key=pygame.K_RIGHT)
 		
 		self.golfer_controller.handle_event(e)
 
-		self.golfer.start_turn_right.assert_called_once()
+		self.golfer.end_turn_right.assert_called_once()
 
 	def testKeyDownKUp(self):
 		e = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_UP)
