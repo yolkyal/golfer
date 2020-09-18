@@ -23,6 +23,6 @@ class Wall:
 
 	def get_resultant_pos(self, ball):
 		if self.is_horizontal:
-			dist_y = self.pos[1] - self.ball.pos[1]
-
-		
+			return (ball.pos[0] + ball.vel[0], ball.pos[1] + ball.vel[1] - 2 * (ball.pos[1] + ball.vel[1] - self.pt1[1]))
+		elif self.is_vertical:
+			return (ball.pos[0] + ball.vel[0] - 2 * (ball.pos[0] + ball.vel[0] - self.pt1[0]), ball.pos[1] + ball.vel[1])

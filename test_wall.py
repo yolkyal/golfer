@@ -26,16 +26,16 @@ class TestWall(unittest.TestCase):
 		self.ball.vel = (1.5, 0)
 		self.assertFalse(self.wall.is_collision(self.ball))
 
-	# def testResultantPosVerticalWall(self):
-	# 	self.wall = wall.Wall((100, 0), (100, 100))
+	def testResultantPosVerticalWall(self):
+		self.wall = wall.Wall((100, 0), (100, 100))
 
-	# 	self.ball.pos = (99, 50)
-	# 	self.ball.vel = (1.5, 0)
-	# 	self.assertEqual((99.5, 50), self.wall.get_resultant_pos(self.ball))
+		self.ball.pos = (99, 50)
+		self.ball.vel = (1.5, 0)
+		self.assertEqual((99.5, 50), self.wall.get_resultant_pos(self.ball))
 
-	# 	self.ball.pos = (101, 50)
-	# 	self.ball.vel = (-1.5, 0)
-	# 	self.assertEqual((100.5, 50), self.wall.get_resultant_pos(self.ball))
+		self.ball.pos = (101, 50)
+		self.ball.vel = (-1.5, 0)
+		self.assertEqual((100.5, 50), self.wall.get_resultant_pos(self.ball))
 
 	def testResultantVelVerticalWall(self):
 		self.wall = wall.Wall((100, 0), (100, 100))
@@ -67,16 +67,16 @@ class TestWall(unittest.TestCase):
 		self.ball.vel = (0, 1.5)
 		self.assertFalse(self.wall.is_collision(self.ball))
 
-	# def testResultantPosHorizontalWall(self):
-	# 	self.wall = wall.Wall((0, 100), (100, 100))
+	def testResultantPosHorizontalWall(self):
+		self.wall = wall.Wall((0, 100), (100, 100))
 
-	# 	self.ball.pos = (50, 99)
-	# 	self.ball.vel = (0, 1.5)
-	# 	self.assertEqual((50, 99.5), self.wall.get_resultant_pos(self.ball))
+		self.ball.pos = (50, 99)
+		self.ball.vel = (0, 1.5)
+		self.assertEqual((50, 99.5), self.wall.get_resultant_pos(self.ball))
 
-	# 	self.ball.pos = (50, 101)
-	# 	self.ball.vel = (0, -1.5)
-	# 	self.assertEqual((50, 100.5), self.wall.get_resultant_pos(self.ball))
+		self.ball.pos = (50, 101)
+		self.ball.vel = (0, -1.5)
+		self.assertEqual((50, 100.5), self.wall.get_resultant_pos(self.ball))
 
 	def testResultantVelHorizontalWall(self):
 		self.wall = wall.Wall((0, 100), (100, 100))
