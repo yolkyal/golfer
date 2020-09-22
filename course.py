@@ -7,11 +7,18 @@ BALL_VEL_EPSILON = 0.01
 
 
 class Course:
-	def __init__(self, ball, hole_pos):
+	def __init__(self, ball, hole_pos, walls):
 		self.ball = ball
 		self.hole_pos = hole_pos
+		self.walls = walls
 
 	def update(self, time_delta):
+		for wall in self.walls:
+			if wall.is_collision(self.ball):
+				self.ball.vel = wall.get_resultant_vel(self.ball)
+				self.ball.pos = wall.get_resultant_pos(self.ball)
+				return
+	
 		self.ball.pos = (self.ball.pos[0] + self.ball.vel[0] * time_delta, self.ball.pos[1] + self.ball.vel[1] * time_delta)
 		self.ball.vel = (apply_epsilon(self.ball.vel[0] * DEFAULT_SURFACE_DRAG, BALL_VEL_EPSILON), apply_epsilon(self.ball.vel[1] * DEFAULT_SURFACE_DRAG, BALL_VEL_EPSILON))
 

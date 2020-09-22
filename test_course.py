@@ -7,7 +7,9 @@ class TestCourse(unittest.TestCase):
 	def setUp(self):
 		self.hole_pos = (0, 0)
 		self.ball = mock.Mock()
-		self.course = course.Course(self.ball, self.hole_pos)
+		self.wall = mock.Mock()
+		self.wall.is_collision.return_value = False
+		self.course = course.Course(self.ball, self.hole_pos, [self.wall])
 
 	def testUpdate(self):
 		self.ball.pos = (1, 2)
@@ -21,6 +23,16 @@ class TestCourse(unittest.TestCase):
 
 		self.assertEqual(expected_ball_pos, self.ball.pos)
 		self.assertEqual(expected_ball_vel, self.ball.vel)
+		
+	def testUpdateWithWallCollision(self):
+		self.wall.is_collision.return_value = True
+		
+		self.course.update(1)
+		
+		self.wall.get_resultant_vel.assert_called_once_with(self.ball)
+		self.wall.get_resultant_pos.assert_called_once_with(self.ball)
+		self.assertEqual(self.ball.vel, self.wall.get_resultant_vel(self.ball))
+		self.assertEqual(self.ball.pos, self.wall.get_resultant_pos(self.ball))
 
 	def testIsComplete(self):
 		self.ball.pos = (0, course.DEFAULT_HOLE_RADIUS)
