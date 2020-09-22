@@ -1,3 +1,5 @@
+import collision_utils
+
 class Wall:
 	def __init__(self, pt1, pt2):
 		self.pt1 = pt1
@@ -6,12 +8,7 @@ class Wall:
 		self.is_vertical = pt1[0] == pt2[0]
 
 	def is_collision(self, pos1, pos2):
-		if self.is_horizontal:
-			return (pos1[1] < self.pt1[1]) is not (pos2[1] < self.pt1[1]) and pos1[0] >= self.pt1[0] and pos1[0] <= self.pt2[0]
-		elif self.is_vertical:
-			return (pos1[0] < self.pt1[0]) is not (pos2[0] < self.pt1[0]) and pos1[1] >= self.pt1[1] and pos1[1] <= self.pt2[1]
-		else:
-			return False
+		return collision_utils.line_intersection(self.pt1, self.pt2, pos1, pos2)
 
 	def get_resultant_vel(self, vel):
 		if self.is_horizontal:
