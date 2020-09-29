@@ -10,7 +10,7 @@ MAX_MAG = SWING_FORCE_TIME_MULTIPLIER * SWING_TIME_LIMIT.seconds
 class Golfer:
 	def __init__(self, ball, direction=0):
 		self.ball = ball
-		self.direction = 0
+		self.direction = direction
 		self.turning_left = False
 		self.turning_right = False
 		self.start_swing_time = None

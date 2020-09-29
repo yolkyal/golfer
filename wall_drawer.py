@@ -1,7 +1,7 @@
 import pygame
 
 
-DEFAULT_WALL_COLOUR = (150, 150, 150)
+DEFAULT_WALL_COLOUR = (220, 220, 220)
 
 		
 class WallDrawer:
