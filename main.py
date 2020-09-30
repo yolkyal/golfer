@@ -18,11 +18,11 @@ def main():
 	d_surf = pygame.display.set_mode(size)
 	clock = pygame.time.Clock()
 
-	ball = Ball((200, 350))
+	ball = Ball((200, 325))
 	golfer = Golfer(ball, direction=-math.pi/2)
 	golfer_controller = GolferController(golfer)
 	walls = [Wall((100, 25), (300, 25)), Wall((300, 25), (300, 375)), Wall((300, 375), (100, 375)), Wall((100, 375), (100, 25))]
-	course = Course(ball, (200, 50), walls)
+	course = Course(ball, (200, 75), walls)
 
 	golfer_drawer = GolferDrawer()
 	ball_drawer = BallDrawer()
@@ -47,6 +47,10 @@ def main():
 			wall_drawer.draw(d_surf, wall)
 		golfer_drawer.draw(d_surf, golfer)
 		ball_drawer.draw(d_surf, ball)
+		
+		if course.is_complete():
+			pygame.quit()
+			sys.exit()
 
 		pygame.display.update()
 	
