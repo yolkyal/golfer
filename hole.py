@@ -6,7 +6,7 @@ DEFAULT_HOLE_RADIUS = 5
 BALL_VEL_EPSILON = 0.01
 
 
-class Course:
+class Hole:
 	def __init__(self, ball, hole_pos, walls):
 		self.ball = ball
 		self.hole_pos = hole_pos
