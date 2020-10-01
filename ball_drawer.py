@@ -1,4 +1,5 @@
 import pygame
+import pygame.gfxdraw
 
 
 BALL_RADIUS = 2
@@ -9,4 +10,5 @@ class BallDrawer:
 		pass
 
 	def draw(self, d_surf, ball):
-		pygame.draw.circle(d_surf, ball.colour, (int(ball.pos[0]), int(ball.pos[1])), BALL_RADIUS)
+		pygame.gfxdraw.aacircle(d_surf, int(ball.pos[0]), int(ball.pos[1]), BALL_RADIUS, ball.colour)
+		pygame.gfxdraw.filled_circle(d_surf, int(ball.pos[0]), int(ball.pos[1]), BALL_RADIUS, ball.colour)
