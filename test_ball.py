@@ -6,7 +6,8 @@ from math import cos, sin
 class TestBall(unittest.TestCase):
 	def setUp(self):
 		self.pos = (0, 0)
-		self.ball = ball.Ball(self.pos)
+		self.colour = (220, 220, 220)
+		self.ball = ball.Ball(self.pos, self.colour)
 
 	def testApplyForce(self):
 		force_mag = 1

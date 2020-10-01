@@ -2,7 +2,6 @@ import pygame
 
 
 BALL_RADIUS = 2
-DEFAULT_BALL_COLOUR = (240, 240, 240)
 
 
 class BallDrawer:
@@ -10,4 +9,4 @@ class BallDrawer:
 		pass
 
 	def draw(self, d_surf, ball):
-		pygame.draw.circle(d_surf, DEFAULT_BALL_COLOUR, (int(ball.pos[0]), int(ball.pos[1])), BALL_RADIUS)
+		pygame.draw.circle(d_surf, ball.colour, (int(ball.pos[0]), int(ball.pos[1])), BALL_RADIUS)

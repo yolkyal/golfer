@@ -1,4 +1,5 @@
 import pygame
+import pygame.gfxdraw
 
 
 DEFAULT_HOLE_COLOUR = (50, 50, 50)
@@ -10,4 +11,5 @@ class HoleDrawer:
 		pass
 
 	def draw(self, d_surf, hole):
-		pygame.draw.circle(d_surf, DEFAULT_HOLE_COLOUR, hole.hole_pos, DEFAULT_HOLE_RADIUS)
+		pygame.gfxdraw.aacircle(d_surf, hole.hole_pos[0], hole.hole_pos[1], DEFAULT_HOLE_RADIUS, DEFAULT_HOLE_COLOUR)
+		pygame.gfxdraw.filled_circle(d_surf, hole.hole_pos[0], hole.hole_pos[1], DEFAULT_HOLE_RADIUS, DEFAULT_HOLE_COLOUR)
