@@ -1,9 +1,13 @@
 from math import cos, sin
 
 
+DEFAULT_BALL_COLOUR = (240, 240, 240)
+
+
 class Ball:
-	def __init__(self, pos):
+	def __init__(self, pos=None, colour=DEFAULT_BALL_COLOUR):
 		self.pos = pos
+		self.colour = colour
 		self.vel = (0, 0)
 
 	def apply_force(self, mag, dir):

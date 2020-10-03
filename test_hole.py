@@ -1,15 +1,17 @@
-import unittest, pdb
-import course
+import unittest
+import hole
 from unittest import mock
 
 
-class TestCourse(unittest.TestCase):
+class TestHole(unittest.TestCase):
 	def setUp(self):
-		self.hole_pos = (0, 0)
 		self.ball = mock.Mock()
+		self.ball_start_pos = (0, 0)
+		self.golfer_start_direction = 0
+		self.hole_pos = (0, 0)
 		self.wall = mock.Mock()
 		self.wall.is_collision.return_value = False
-		self.course = course.Course(self.ball, self.hole_pos, [self.wall])
+		self.hole = hole.Hole(self.ball_start_pos, self.hole_pos, self.golfer_start_direction, [self.wall])
 
 	def testUpdate(self):
 		self.ball.pos = (1, 2)
@@ -17,9 +19,9 @@ class TestCourse(unittest.TestCase):
 		time_delta = 2
 
 		expected_ball_pos = (self.ball.pos[0] + self.ball.vel[0] * time_delta, self.ball.pos[1] + self.ball.vel[1] * time_delta)
-		expected_ball_vel = (self.ball.vel[0] * course.DEFAULT_SURFACE_DRAG, self.ball.vel[1] * course.DEFAULT_SURFACE_DRAG)
+		expected_ball_vel = (self.ball.vel[0] * hole.DEFAULT_SURFACE_DRAG, self.ball.vel[1] * hole.DEFAULT_SURFACE_DRAG)
 
-		self.course.update(time_delta)
+		self.hole.update(self.ball, time_delta)
 
 		self.assertEqual(expected_ball_pos, self.ball.pos)
 		self.assertEqual(expected_ball_vel, self.ball.vel)
@@ -33,9 +35,9 @@ class TestCourse(unittest.TestCase):
 		self.ball.vel = (3, 4)
 		
 		next_ball_pos = (self.ball.pos[0] + self.ball.vel[0], self.ball.pos[1] + self.ball.vel[1])
-		next_ball_vel = (3 * course.DEFAULT_SURFACE_DRAG, 4 * course.DEFAULT_SURFACE_DRAG)
+		next_ball_vel = (3 * hole.DEFAULT_SURFACE_DRAG, 4 * hole.DEFAULT_SURFACE_DRAG)
 		
-		self.course.update()
+		self.hole.update(self.ball)
 		
 		self.wall.get_resultant_vel.assert_called_once_with(next_ball_vel)
 		self.wall.get_resultant_pos.assert_called_once_with(next_ball_pos)
@@ -54,12 +56,12 @@ class TestCourse(unittest.TestCase):
 		self.ball.pos = orig_ball_pos
 		self.ball.vel = (3, 4)
 		
-		self.course = course.Course(self.ball, self.hole_pos, [wall1, wall2])
+		self.hole.walls = [wall1, wall2]
 		
 		next_ball_pos = (self.ball.pos[0] + self.ball.vel[0], self.ball.pos[1] + self.ball.vel[1])
-		next_ball_vel = (3 * course.DEFAULT_SURFACE_DRAG, 4 * course.DEFAULT_SURFACE_DRAG)
+		next_ball_vel = (3 * hole.DEFAULT_SURFACE_DRAG, 4 * hole.DEFAULT_SURFACE_DRAG)
 		
-		self.course.update()
+		self.hole.update(self.ball)
 		
 		wall1_collision_pt = wall1.get_collision_pt(orig_ball_pos, next_ball_pos)
 		wall1_resultant_pos = wall1.get_resultant_pos(next_ball_pos)
@@ -68,12 +70,10 @@ class TestCourse(unittest.TestCase):
 		
 		is_collision_expected_calls = [mock.call(orig_ball_pos, next_ball_pos), mock.call(wall1_collision_pt, wall1_resultant_pos), mock.call(wall2_collision_pt, wall2_resultant_pos)]
 		
-		# pdb.set_trace()
-		
 		self.assertEqual(is_collision_expected_calls, wall1.is_collision.call_args_list)
 		self.assertEqual(is_collision_expected_calls, wall2.is_collision.call_args_list)
 
 	def testIsComplete(self):
-		self.ball.pos = (0, course.DEFAULT_HOLE_RADIUS)
+		self.ball.pos = (0, hole.DEFAULT_HOLE_RADIUS)
 
-		self.assertTrue(self.course.is_complete())
+		self.assertTrue(self.hole.is_complete(self.ball))

@@ -15,4 +15,4 @@ class TestBallDrawer(unittest.TestCase):
 
 		self.ball_drawer.draw(self.d_surf, ball)
 
-		mock_draw_circle.assert_called_once_with(self.d_surf, ball_drawer.DEFAULT_BALL_COLOUR, ball.pos, ball_drawer.BALL_RADIUS)
+		mock_draw_circle.assert_called_once_with(self.d_surf, ball.colour, ball.pos, ball_drawer.BALL_RADIUS)

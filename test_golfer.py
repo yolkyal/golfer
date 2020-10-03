@@ -9,7 +9,8 @@ class TestGolfer(unittest.TestCase):
 		self.ball = mock.Mock()
 		self.ball.is_stationary.return_value = True
 		self.start_direction = 0
-		self.golfer = golfer.Golfer(self.ball, self.start_direction)
+		self.golfer = golfer.Golfer(self.ball)
+		self.golfer.direction = self.start_direction
 
 	def testTurnLeft(self):
 		self.golfer.start_turn_left()

@@ -1,9 +1,9 @@
-import pygame, sys, math
+import pygame, sys, math, time
 from golfer import Golfer
 from golfer_controller import GolferController
 from golfer_drawer import GolferDrawer
-from course import Course
-from course_drawer import CourseDrawer
+from hole import Hole
+from hole_drawer import HoleDrawer
 from ball import Ball
 from ball_drawer import BallDrawer
 from wall import Wall
@@ -18,16 +18,24 @@ def main():
 	d_surf = pygame.display.set_mode(size)
 	clock = pygame.time.Clock()
 
-	ball = Ball((200, 325))
-	golfer = Golfer(ball, direction=-math.pi/2)
+	ball = Ball()
+	golfer = Golfer(ball)
 	golfer_controller = GolferController(golfer)
 	walls = [Wall((100, 25), (300, 25)), Wall((300, 25), (300, 375)), Wall((300, 375), (100, 375)), Wall((100, 375), (100, 25))]
-	course = Course(ball, (200, 75), walls)
+	
+	ball_start_pos = (200, 325)
+	hole_pos = (200, 75)
+	golfer_start_direction = -math.pi/2
+
+	hole = Hole(ball_start_pos, hole_pos, golfer_start_direction, walls)
 
 	golfer_drawer = GolferDrawer()
 	ball_drawer = BallDrawer()
-	course_drawer = CourseDrawer()
+	hole_drawer = HoleDrawer()
 	wall_drawer = WallDrawer()
+
+	ball.pos = hole.ball_start_pos
+	golfer.direction = hole.golfer_start_direction
 
 	while True:
 		delta_ms = clock.tick(30)
@@ -39,21 +47,22 @@ def main():
 				golfer_controller.handle_event(event)
 				
 		golfer.update()
-		course.update(delta_ms)
+		hole.update(ball, delta_ms)
 
 		d_surf.fill(BG_COL)
-		course_drawer.draw(d_surf, course)
+		hole_drawer.draw(d_surf, hole)
 		for wall in walls:
 			wall_drawer.draw(d_surf, wall)
 		golfer_drawer.draw(d_surf, golfer)
 		ball_drawer.draw(d_surf, ball)
 		
-		if course.is_complete():
+		if hole.is_complete(ball):
+			time.sleep(1)
 			pygame.quit()
 			sys.exit()
 
 		pygame.display.update()
-	
+
 
 if __name__ == '__main__':
 	main()
