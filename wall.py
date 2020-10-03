@@ -1,4 +1,5 @@
 import collision_utils
+import math
 
 class Wall:
 	def __init__(self, pt1, pt2):
@@ -6,24 +7,21 @@ class Wall:
 		self.pt2 = pt2
 		self.is_horizontal = pt1[1] == pt2[1]
 		self.is_vertical = pt1[0] == pt2[0]
+		self.angle = math.atan((pt2[1] - pt1[1]) / (pt2[0] - pt1[0])) if not self.is_vertical else math.pi / 2
 
 	def is_collision(self, pos1, pos2):
 		return collision_utils.is_line_intersection(self.pt1, self.pt2, pos1, pos2)
 		
 	def get_collision_pt(self, pos1, pos2):
 		return collision_utils.get_line_intersection_pt(self.pt1, self.pt2, pos1, pos2)
-
+			
+	def get_resultant_pos(self, pos1, pos2):
+		line_intersection_pt = self.get_collision_pt(pos1, pos2)
+		tmp_pt = (pos2[0] - line_intersection_pt[0], pos2[1] - line_intersection_pt[1])
+		ref_pt = (math.cos(2 * self.angle) * tmp_pt[0] + math.sin(2 * self.angle) * tmp_pt[1], math.sin(2 * self.angle) * tmp_pt[0] - math.cos(2 * self.angle) * tmp_pt[1])
+		return (ref_pt[0] + line_intersection_pt[0], ref_pt[1] + line_intersection_pt[1])
+		
 	def get_resultant_vel(self, vel):
-		if self.is_horizontal:
-			return (vel[0], -vel[1])
-		elif self.is_vertical:
-			return (-vel[0], vel[1])
-		else:
-			return ball.vel
+		return (math.cos(2 * self.angle) * vel[0] + math.sin(2 * self.angle) * vel[1], math.sin(2 * self.angle) * vel[0] - math.cos(2 * self.angle) * vel[1])
 
-	def get_resultant_pos(self, pos2):
-		if self.is_horizontal:
-			return (pos2[0], pos2[1] - 2 * (pos2[1] - self.pt1[1]))
-		elif self.is_vertical:
-			return (pos2[0] - 2 * (pos2[0] - self.pt1[0]), pos2[1])
 			
