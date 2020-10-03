@@ -21,9 +21,9 @@ class Hole:
 		while True:
 			colliding_wall = self._get_closest_colliding_wall(ball.pos, next_ball_pos, last_colliding_wall)
 			if colliding_wall:
-				ball.pos = colliding_wall.get_collision_pt(ball.pos, next_ball_pos) # use as temp storage
-				next_ball_pos = colliding_wall.get_resultant_pos(next_ball_pos)
+				next_ball_pos = colliding_wall.get_resultant_pos(ball.pos, next_ball_pos)
 				next_ball_vel = colliding_wall.get_resultant_vel(next_ball_vel)
+				ball.pos = colliding_wall.get_collision_pt(ball.pos, next_ball_pos) # use as temp storage
 				last_colliding_wall = colliding_wall
 			else:
 				break

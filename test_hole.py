@@ -40,9 +40,9 @@ class TestHole(unittest.TestCase):
 		self.hole.update(self.ball)
 		
 		self.wall.get_resultant_vel.assert_called_once_with(next_ball_vel)
-		self.wall.get_resultant_pos.assert_called_once_with(next_ball_pos)
+		self.wall.get_resultant_pos.assert_called_once_with(orig_ball_pos, next_ball_pos)
 		self.assertEqual(self.ball.vel, self.wall.get_resultant_vel(next_ball_vel))
-		self.assertEqual(self.ball.pos, self.wall.get_resultant_pos(next_ball_pos))
+		self.assertEqual(self.ball.pos, self.wall.get_resultant_pos(orig_ball_pos, next_ball_pos))
 		mock_get_dist.assert_called_once_with(orig_ball_pos, self.wall.get_collision_pt((1, 2), next_ball_pos))
 		
 	@mock.patch('commons.get_dist')
