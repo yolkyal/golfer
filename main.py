@@ -8,6 +8,8 @@ from ball import Ball
 from ball_drawer import BallDrawer
 from wall import Wall
 from wall_drawer import WallDrawer
+from course import Course
+from game import Game
 
 BG_COL = (0, 200, 100)
 
@@ -34,8 +36,8 @@ def main():
 	hole_drawer = HoleDrawer()
 	wall_drawer = WallDrawer()
 
-	ball.pos = hole.ball_start_pos
-	golfer.direction = hole.golfer_start_direction
+	course = Course([hole])
+	game = Game(golfer, course)
 
 	while True:
 		delta_ms = clock.tick(30)
@@ -46,8 +48,7 @@ def main():
 			elif event.type in (pygame.KEYUP, pygame.KEYDOWN):
 				golfer_controller.handle_event(event)
 				
-		golfer.update()
-		hole.update(ball, delta_ms)
+		game.update(delta_ms)
 
 		d_surf.fill(BG_COL)
 		hole_drawer.draw(d_surf, hole)
@@ -56,7 +57,7 @@ def main():
 		golfer_drawer.draw(d_surf, golfer)
 		ball_drawer.draw(d_surf, ball)
 		
-		if hole.is_complete(ball):
+		if game.is_complete():
 			time.sleep(1)
 			pygame.quit()
 			sys.exit()
