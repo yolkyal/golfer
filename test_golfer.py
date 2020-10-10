@@ -80,3 +80,17 @@ class TestGolfer(unittest.TestCase):
 		self.golfer.update()
 
 		self.assertEqual(self.start_direction, self.golfer.direction)
+
+	def testShotCountIncreaseWithSwing(self):
+		self.golfer.start_swing()
+		self.golfer.end_swing()
+		self.golfer.update()
+
+		self.assertEqual(1, self.golfer.shot_count)
+
+	def testShotCountReset(self):
+		self.golfer.shot_count = 1
+
+		self.golfer.reset_shot_count()
+
+		self.assertEqual(0, self.golfer.shot_count)

@@ -15,6 +15,7 @@ class Golfer:
 		self.turning_right = False
 		self.start_swing_time = None
 		self.end_swing_time = None
+		self.shot_count = 0
 
 	def start_turn_left(self):
 		self.turning_left = True
@@ -46,6 +47,9 @@ class Golfer:
 			time_delta = self.end_swing_time - self.start_swing_time
 			return time_delta.seconds + time_delta.microseconds / 1000000
 
+	def reset_shot_count(self):
+		self.shot_count = 0
+
 	def update(self):
 		if not self.ball.is_stationary():
 			return # no updates allowed while ball is moving
@@ -61,6 +65,7 @@ class Golfer:
 				time_delta = self.end_swing_time - self.start_swing_time
 				mag = self.get_completed_swing_time() * SWING_FORCE_TIME_MULTIPLIER
 				self.ball.apply_force(mag, self.direction)
+				self.shot_count += 1
 				self.start_swing_time = None
 				self.end_swing_time = None
 			elif datetime.datetime.now() - self.start_swing_time >= SWING_TIME_LIMIT:
