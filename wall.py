@@ -10,7 +10,7 @@ class Wall:
 		self.angle = math.atan((pt2[1] - pt1[1]) / (pt2[0] - pt1[0])) if not self.is_vertical else math.pi / 2
 
 	def __eq__(self, other):
-		return self.pt1 == other.pt1 and self.pt2 == other.pt2
+		return other is not None and self.pt1 == other.pt1 and self.pt2 == other.pt2
 
 	def is_collision(self, pos1, pos2):
 		return collision_utils.is_line_intersection(self.pt1, self.pt2, pos1, pos2)
