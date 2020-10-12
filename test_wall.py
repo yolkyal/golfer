@@ -98,6 +98,14 @@ class TestWall(unittest.TestCase):
 		
 		vel = (1, -1)
 		self.assertAlmostEqualTup((-1, 1), self.deg45_wall.get_resultant_vel(vel))
+
+	def testWallBuilder(self):
+		wall_builder = wall.WallBuilder((0, 50), (100, 150), (200, 250))
+		walls = wall_builder.build()
+
+		expected_walls = [wall.Wall((0, 50), (100, 150)), wall.Wall((100, 150), (200, 250)), wall.Wall((200, 250), (0, 50))]
+
+		self.assertEqual(expected_walls, walls)
 		
 	def assertAlmostEqualTup(self, expected, actual):
 		self.assertAlmostEqual(expected[0], actual[0], places=7)
